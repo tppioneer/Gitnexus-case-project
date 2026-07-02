@@ -1,0 +1,22 @@
+case: telecom-case-f
+ground_truth_type: flow_tracing
+truth_version: "1.0"
+
+expected_call_chain:
+  - step: 1
+    symbol: DashboardDrilldownController.getDrilldown
+    route: GET /api/dashboard/regions/{regionCode}/drilldown
+  - step: 2
+    symbol: DashboardDrilldownService.drillDownRegion
+  - step: 3
+    symbol: DeviceClient.fetchDeviceSummary
+  - step: 4
+    symbol: AlarmClient.fetchActiveAlarmSummary
+  - step: 5
+    symbol: WorkOrderClient.fetchOpenWorkOrderSummary
+
+region_code_noise:
+  - Region.regionCode
+  - OperatorUser.regionCode
+  - RegionFilterRequest.regionCode
+  - MaintenanceWindow.regionCode

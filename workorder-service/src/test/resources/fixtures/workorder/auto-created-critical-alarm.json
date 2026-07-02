@@ -1,0 +1,13 @@
+{
+  "workOrderId": "wo-auto-001",
+  "alarmId": "alarm-east-001",
+  "deviceId": "dev-bs-hw-001",
+  "status": "CREATED",
+  "priority": "CRITICAL",
+  "title": "Auto-created from alarm alarm-east-001",
+  "description": "Alarm triggered for device dev-bs-hw-001",
+  "maintenanceRegionCode": "EAST",
+  "assignee": null,
+  "createdTime": 1719705600000,
+  "updatedTime": 1719705600000
+}

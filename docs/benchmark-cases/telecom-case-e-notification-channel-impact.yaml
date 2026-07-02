@@ -1,0 +1,29 @@
+case: telecom-case-e-notification-channel-impact
+level: L2 - impact_analysis
+title: "NotificationChannel.send 签名变更影响分析"
+
+description: >
+  如果给 NotificationChannel.send(NotificationRequest request) 增加 DeliveryContext context 参数，
+  需要同步检查哪些实现类、调用方、重试逻辑、模板变量解析和测试？
+
+task: >
+  如果给 NotificationChannel.send(NotificationRequest request) 增加 DeliveryContext context 参数，
+  需要同步检查哪些实现类、调用方、重试逻辑、模板变量解析和测试？
+
+target_interface:
+  name: NotificationChannel
+  method: send
+
+target_implementations:
+  - SmsNotificationChannel
+  - EmailNotificationChannel
+  - WeComNotificationChannel
+
+target_callers:
+  - NotificationService
+  - NotificationRetryService
+
+noise:
+  - "同名 send 噪音来自 publisher、client 等"
+
+ground_truth: docs/benchmark-cases/ground-truth/telecom-case-e-ground-truth.yaml

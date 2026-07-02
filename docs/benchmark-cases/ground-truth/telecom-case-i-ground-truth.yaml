@@ -1,0 +1,27 @@
+case: telecom-case-i
+ground_truth_type: impact_analysis
+truth_version: "1.0"
+
+target:
+  service: AlarmSuppressionService
+  method: shouldSuppress
+
+must_include:
+  - MaintenanceWindowService
+  - MaintenanceWindowRepository
+  - SuppressionRuleEvaluator (evaluate noise, NOT RuleEvaluator)
+  - AlarmEscalationService
+  - AlarmExportService
+  - DashboardAggregationService
+
+evaluate_noise_items:
+  - SuppressionRuleEvaluator.evaluate (NOT RuleEvaluator)
+  - AlarmEscalationPolicy.evaluate (NOT RuleEvaluator)
+  - SeverityAlarmEscalationPolicy.evaluate
+  - DurationAlarmEscalationPolicy.evaluate
+  - DeviceHealthEvaluator.evaluate
+  - RegionHealthEvaluator.evaluate
+
+must_exclude:
+  - RuleEvaluator.evaluate (Case B target)
+  - CpuUsageRuleEvaluator (Case B target)

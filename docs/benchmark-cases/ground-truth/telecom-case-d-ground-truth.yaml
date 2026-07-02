@@ -1,0 +1,34 @@
+case: telecom-case-d
+ground_truth_type: state_machine_change
+truth_version: "1.0"
+
+target:
+  state_machine: WorkOrderStateMachine
+  new_state: WAITING_VENDOR
+
+existing_states:
+  - CREATED, ASSIGNED, PROCESSING, WAITING_VENDOR, RESOLVED, CLOSED, ESCALATED, CANCELLED
+
+new_transitions:
+  - "PROCESSING -> WAITING_VENDOR"
+  - "WAITING_VENDOR -> PROCESSING"
+  - "WAITING_VENDOR -> RESOLVED"
+  - "WAITING_VENDOR -> ESCALATED"
+
+files_to_modify:
+  - common-domain/.../WorkOrderStatus.java (add WAITING_VENDOR)
+  - workorder-service/.../WorkOrderStateMachine.java (add transitions)
+  - workorder-service/.../controller/WorkOrderFlowController.java (add WAITING_VENDOR case)
+  - workorder-service/.../WorkOrderFixtureFactory.java (add fixture method)
+
+related_services:
+  - WaitingVendorPolicy
+  - VendorTicketService
+  - WorkOrderSlaBreachService
+  - WorkOrderBulkActionService
+
+tests_affected:
+  - WorkOrderStateMachineTest
+  - WorkOrderStateMachineWaitingVendorTest
+
+verification: mvn test

@@ -1,0 +1,27 @@
+case: telecom-case-e
+ground_truth_type: impact_analysis
+truth_version: "1.0"
+
+target:
+  interface: NotificationChannel
+  method: send
+  change: "add DeliveryContext context parameter"
+
+must_include:
+  implementations:
+    - SmsNotificationChannel
+    - EmailNotificationChannel
+    - WeComNotificationChannel
+  callers:
+    - NotificationService
+    - NotificationRetryService
+  tests:
+    - NotificationChannelSendTest
+    - NotificationServiceTest
+    - NotificationRetryServiceTest
+
+noise:
+  - "NotificationRuleService.evaluate (NOT related to send)"
+  - "TemplateVariableResolver.resolve (NOT related to send)"
+  - "VendorAdapter.normalizeRawMetric (different interface)"
+  - "DeviceHealthEvaluator.evaluate (different module)"

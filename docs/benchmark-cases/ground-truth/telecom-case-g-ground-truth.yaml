@@ -1,0 +1,27 @@
+case: telecom-case-g
+ground_truth_type: impact_analysis
+truth_version: "1.0"
+
+target:
+  interface: VendorAdapter
+  method: normalizeRawMetric
+  change: "add VendorContext context parameter"
+
+must_include:
+  implementations:
+    - HuaweiVendorAdapter
+    - ZteVendorAdapter
+    - FiberHomeVendorAdapter
+    - GenericSnmpVendorAdapter
+  callers:
+    - MetricCollectorService
+    - VendorAdapterRegistry
+  tests:
+    - HuaweiVendorAdapterTest
+    - VendorAdapterRegistryTest
+    - MetricCollectorServiceTest
+    - VendorAdapterNormalizationTest
+
+noise:
+  - "VendorAlarmAdapter.normalize (different interface)"
+  - "DeviceMetricNormalizer.normalize (different class)"

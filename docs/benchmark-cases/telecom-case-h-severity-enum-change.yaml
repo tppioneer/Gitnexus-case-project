@@ -1,0 +1,22 @@
+case: telecom-case-h-severity-enum-change
+level: L3 - small_code_change
+title: "AlarmRecord.severity 类型收紧"
+
+description: >
+  将 AlarmRecord.severity 的写入路径收紧为只能通过 AlarmSeverityClassifier 和指定枚举值生成，
+  同步检查告警评估、导出、Dashboard、工单优先级映射和测试。
+
+task: >
+  请将 AlarmRecord.severity 的写入路径收紧为只能通过 AlarmSeverityClassifier 和指定枚举值生成，
+  同步检查告警评估、导出、Dashboard、工单优先级映射和测试。
+
+target_field: AlarmRecord.severity
+
+affected_services:
+  - AlarmEvaluationService
+  - AlarmExportService
+  - AlarmSeverityClassifier
+  - AutoWorkOrderService (priority mapping)
+  - DashboardAggregationService
+
+ground_truth: docs/benchmark-cases/ground-truth/telecom-case-h-ground-truth.yaml

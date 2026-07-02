@@ -1,0 +1,9 @@
+{
+  "deviceId": "dev-bs-hw-001",
+  "vendor": "Huawei",
+  "rawMetricName": "cpu_usage_ratio",
+  "rawValue": 9200,
+  "rawUnit": "ratio",
+  "timestamp": 1719705600000,
+  "deviceRegionCode": "EAST"
+}

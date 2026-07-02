@@ -1,0 +1,22 @@
+case: telecom-case-f-dashboard-drilldown-flow
+level: L1 - flow_tracing
+title: "Dashboard Drill-down 执行流追踪"
+
+description: >
+  分析 GET /api/dashboard/regions/{regionCode}/drilldown 从入口到设备、告警、工单详情聚合的完整调用链。
+
+task: >
+  请分析 GET /api/dashboard/regions/{regionCode}/drilldown 从入口到设备、告警、工单详情聚合的完整调用链。
+
+entry_point:
+  controller: DashboardDrilldownController
+  method: getDrilldown
+  route: GET /api/dashboard/regions/{regionCode}/drilldown
+
+key_components:
+  - DashboardDrilldownService
+  - DeviceClient
+  - AlarmClient
+  - WorkOrderClient
+
+ground_truth: docs/benchmark-cases/ground-truth/telecom-case-f-ground-truth.yaml

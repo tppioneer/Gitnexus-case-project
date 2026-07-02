@@ -1,0 +1,10 @@
+{
+  "deviceId": "dev-bs-hw-001",
+  "deviceName": "BS-Huawei-East-01",
+  "deviceType": "BASE_STATION",
+  "vendor": "Huawei",
+  "regionCode": "EAST",
+  "siteCode": "SITE-001",
+  "managementIp": "10.0.1.1",
+  "active": true
+}

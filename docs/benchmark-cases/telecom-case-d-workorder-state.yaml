@@ -1,0 +1,34 @@
+case: telecom-case-d-workorder-state
+level: L3 - small_code_change
+title: "WorkOrder 状态新增 WAITING_VENDOR 状态流转"
+
+description: >
+  为工单流转增加 WAITING_VENDOR 状态，允许 PROCESSING -> WAITING_VENDOR，
+  WAITING_VENDOR -> PROCESSING / RESOLVED / ESCALATED。
+  同步更新状态机、Controller、DTO、VendorTicket、SLA、测试和 ground truth。
+
+task: >
+  请为工单流转增加 WAITING_VENDOR 状态，允许 PROCESSING -> WAITING_VENDOR，
+  WAITING_VENDOR -> PROCESSING / RESOLVED / ESCALATED。
+  同步更新状态机、Controller、DTO、VendorTicket、SLA、测试和 ground truth。
+
+target:
+  state_machine: WorkOrderStateMachine
+  new_state: WAITING_VENDOR
+  new_transitions:
+    - PROCESSING -> WAITING_VENDOR
+    - WAITING_VENDOR -> PROCESSING
+    - WAITING_VENDOR -> RESOLVED
+    - WAITING_VENDOR -> ESCALATED
+
+related_services:
+  - WaitingVendorPolicy
+  - VendorTicketService
+  - WorkOrderSlaBreachService
+  - WorkOrderBulkActionService
+
+verification:
+  - mvn test
+  - mvn -pl workorder-service test
+
+ground_truth: docs/benchmark-cases/ground-truth/telecom-case-d-ground-truth.yaml

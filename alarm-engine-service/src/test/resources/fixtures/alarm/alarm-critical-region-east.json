@@ -1,0 +1,12 @@
+{
+  "alarmId": "alarm-east-001",
+  "deviceId": "dev-bs-hw-001",
+  "metricId": "metric-cpu-001",
+  "metricType": "CPU_USAGE",
+  "severity": "CRITICAL",
+  "status": "OPEN",
+  "description": "CPU usage 92% exceeds threshold 80%",
+  "alarmRegionCode": "EAST",
+  "createdTime": 1719705600000,
+  "updatedTime": 1719705600000
+}

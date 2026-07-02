@@ -1,0 +1,9 @@
+{
+  "deviceId": "dev-olt-zt-001",
+  "vendor": "ZTE",
+  "rawMetricName": "rx_optical_power",
+  "rawValue": -28.5,
+  "rawUnit": "dBm",
+  "timestamp": 1719705600000,
+  "deviceRegionCode": "SOUTH"
+}

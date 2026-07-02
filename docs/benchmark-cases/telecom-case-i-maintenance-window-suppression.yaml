@@ -1,0 +1,27 @@
+case: telecom-case-i-maintenance-window-suppression
+level: L2 - impact_analysis
+title: "维护窗口告警抑制逻辑影响分析"
+
+description: >
+  分析如果调整维护窗口内告警抑制逻辑，会影响哪些告警评估、升级、导出、Dashboard 和测试。
+  与 Case B 的 evaluate 干扰相互增强。
+
+task: >
+  请分析如果调整维护窗口内告警抑制逻辑，会影响哪些告警评估、升级、导出、Dashboard 和测试？
+
+target:
+  service: AlarmSuppressionService
+  related:
+    - MaintenanceWindowService
+    - SuppressionRuleEvaluator
+    - AlarmEscalationService
+    - AlarmExportService
+    - DashboardAggregationService
+
+noise_evaluate:
+  - SuppressionRuleEvaluator.evaluate (NOT RuleEvaluator)
+  - AlarmEscalationPolicy.evaluate (NOT RuleEvaluator)
+  - DeviceHealthEvaluator.evaluate (NOT RuleEvaluator)
+  - RegionHealthEvaluator.evaluate (NOT RuleEvaluator)
+
+ground_truth: docs/benchmark-cases/ground-truth/telecom-case-i-ground-truth.yaml
