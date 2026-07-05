@@ -7,7 +7,7 @@ import com.example.telecom.collector.dto.MetricIngestRequest;
 import com.example.telecom.common.device.*;
 
 /**
- * Maps between request/domain/response. EXPLICITLY maps regionCode → deviceRegionCode.
+ * Maps between request/domain/response. EXPLICITLY maps maintenanceRegionCode → deviceRegionCode.
  */
 public class DeviceMetricMapper {
 
@@ -24,7 +24,7 @@ public class DeviceMetricMapper {
 
     /**
      * Creates a DeviceMetricEvent with EXPLICIT field mapping:
-     * DeviceInfo.regionCode → DeviceMetricEvent.deviceRegionCode
+     * DeviceInfo.maintenanceRegionCode → DeviceMetricEvent.deviceRegionCode
      * This is a critical mapping for Case C field propagation.
      */
     public DeviceMetricEvent toEvent(DeviceMetric metric, DeviceInfo deviceInfo) {
@@ -36,7 +36,7 @@ public class DeviceMetricMapper {
                 metric.getValue(),
                 metric.getUnit(),
                 System.currentTimeMillis(),
-                deviceInfo.getRegionCode()   // ← EXPLICIT: DeviceInfo.regionCode → event.deviceRegionCode
+                deviceInfo.getMaintenanceRegionCode()   // ← EXPLICIT: DeviceInfo.maintenanceRegionCode → event.deviceRegionCode
         );
     }
 

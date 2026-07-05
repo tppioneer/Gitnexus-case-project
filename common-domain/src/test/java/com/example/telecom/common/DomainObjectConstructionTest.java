@@ -29,7 +29,7 @@ class DomainObjectConstructionTest {
         DeviceInfo di = new DeviceInfo("d1", "name", DeviceType.BASE_STATION,
                 "Huawei", "EAST", "S1", "10.0.0.1", true);
         assertEquals("d1", di.getDeviceId());
-        assertEquals("EAST", di.getRegionCode());
+        assertEquals("EAST", di.getMaintenanceRegionCode());
         assertTrue(di.isActive());
     }
 

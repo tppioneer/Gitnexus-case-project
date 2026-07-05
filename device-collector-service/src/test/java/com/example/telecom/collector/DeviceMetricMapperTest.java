@@ -20,8 +20,8 @@ class DeviceMetricMapperTest {
 
         DeviceMetricEvent event = mapper.toEvent(metric, deviceInfo);
 
-        // Case C: DeviceInfo.regionCode → DeviceMetricEvent.deviceRegionCode
+        // Case C: DeviceInfo.maintenanceRegionCode → DeviceMetricEvent.deviceRegionCode
         assertEquals("EAST", event.getDeviceRegionCode());
-        assertEquals(deviceInfo.getRegionCode(), event.getDeviceRegionCode());
+        assertEquals(deviceInfo.getMaintenanceRegionCode(), event.getDeviceRegionCode());
     }
 }

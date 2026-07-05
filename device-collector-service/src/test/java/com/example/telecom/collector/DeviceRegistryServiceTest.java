@@ -32,7 +32,7 @@ class DeviceRegistryServiceTest {
 
         assertNotNull(device.getDeviceId());
         assertEquals("BS-East-01", device.getDeviceName());
-        assertEquals("EAST", device.getRegionCode());
+        assertEquals("EAST", device.getMaintenanceRegionCode());
         assertTrue(device.isActive());
     }
 

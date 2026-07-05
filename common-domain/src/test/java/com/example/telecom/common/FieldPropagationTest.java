@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Verifies the field propagation chain for Case C:
- * DeviceInfo.regionCode → DeviceMetricEvent.deviceRegionCode → AlarmRecord.alarmRegionCode
+ * DeviceInfo.maintenanceRegionCode → DeviceMetricEvent.deviceRegionCode → AlarmRecord.alarmRegionCode
  * → AlarmEvent.deviceRegionCode → WorkOrder.maintenanceRegionCode
  *
  * Also verifies that Region.regionCode and OperatorUser.regionCode are SEPARATE fields.
@@ -22,7 +22,7 @@ class FieldPropagationTest {
     void deviceInfoRegionCodeShouldBeSetCorrectly() {
         DeviceInfo deviceInfo = new DeviceInfo("d1", "BS", DeviceType.BASE_STATION,
                 "Huawei", "EAST", "S1", "10.0.0.1", true);
-        assertEquals("EAST", deviceInfo.getRegionCode());
+        assertEquals("EAST", deviceInfo.getMaintenanceRegionCode());
     }
 
     @Test

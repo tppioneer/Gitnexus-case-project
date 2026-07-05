@@ -71,7 +71,7 @@ class MetricCollectorServiceTest {
         metricCollectorService.acceptMetric(raw, deviceInfo);
 
         assertNotNull(publishedEvent.get());
-        // Case C verification: DeviceInfo.regionCode → DeviceMetricEvent.deviceRegionCode
+        // Case C verification: DeviceInfo.maintenanceRegionCode → DeviceMetricEvent.deviceRegionCode
         assertEquals("SOUTH", publishedEvent.get().getDeviceRegionCode());
     }
 }

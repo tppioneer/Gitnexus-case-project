@@ -26,7 +26,7 @@ public class DeviceRegistryRepository {
 
     public List<DeviceInfo> findByRegionCode(String regionCode) {
         return devices.values().stream()
-                .filter(d -> regionCode.equals(d.getRegionCode()))
+                .filter(d -> regionCode.equals(d.getMaintenanceRegionCode()))
                 .toList();
     }
 }

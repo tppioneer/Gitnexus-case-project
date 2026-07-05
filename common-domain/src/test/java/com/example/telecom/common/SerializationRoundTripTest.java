@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Verifies JSON serialization round-trip for all domain objects.
- * Important for Case C: ensures regionCode fields are serialized correctly.
+ * Important for Case C: ensures regionCode/maintenanceRegionCode fields are serialized correctly.
  */
 class SerializationRoundTripTest {
 
@@ -23,11 +23,11 @@ class SerializationRoundTripTest {
         DeviceInfo deviceInfo = new DeviceInfo("d1", "BS-East", DeviceType.BASE_STATION,
                 "Huawei", "EAST", "S1", "10.0.0.1", true);
         String json = mapper.writeValueAsString(deviceInfo);
-        assertTrue(json.contains("regionCode"));
+        assertTrue(json.contains("maintenanceRegionCode"));
         assertTrue(json.contains("EAST"));
 
         DeviceInfo deserialized = mapper.readValue(json, DeviceInfo.class);
-        assertEquals("EAST", deserialized.getRegionCode());
+        assertEquals("EAST", deserialized.getMaintenanceRegionCode());
     }
 
     @Test
@@ -84,10 +84,10 @@ class SerializationRoundTripTest {
 
     @Test
     void shouldDistinguishRegionCodeSemantics() throws Exception {
-        // DeviceInfo.regionCode = device maintenance region
-        // Region.regionCode = region entity code
-        // OperatorUser.regionCode = operator's region
-        // All three share the same JSON field name "regionCode" but are different semantics
+        // DeviceInfo.maintenanceRegionCode = device maintenance region (JSON: "maintenanceRegionCode")
+        // Region.regionCode = region entity code (JSON: "regionCode")
+        // OperatorUser.regionCode = operator's region (JSON: "regionCode")
+        // After Case C rename, DeviceInfo uses a distinct JSON field name; Region/OperatorUser keep "regionCode"
 
         DeviceInfo deviceInfo = new DeviceInfo("d1", "BS", DeviceType.BASE_STATION,
                 "Huawei", "DEVICE_REGION", "S1", "10.0.0.1", true);
@@ -98,7 +98,7 @@ class SerializationRoundTripTest {
         String regionJson = mapper.writeValueAsString(region);
         String userJson = mapper.writeValueAsString(user);
 
-        // All contain "regionCode" but represent different concepts
+        // Each carries a distinct value across the three region-code concepts
         assertTrue(deviceJson.contains("DEVICE_REGION"));
         assertTrue(regionJson.contains("REGION_CODE"));
         assertTrue(userJson.contains("USER_REGION"));
