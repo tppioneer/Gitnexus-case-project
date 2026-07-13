@@ -16,4 +16,8 @@ public class AlarmClient {
     public AlarmRecord fetchAlarm(String alarmId) {
         return null;
     }
+
+    public List<AlarmRecord> getAllAlarms() {
+        return fetchActiveAlarmSummary();
+    }
 }

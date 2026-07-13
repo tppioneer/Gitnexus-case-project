@@ -1,6 +1,6 @@
 package com.example.telecom.alarm;
 
-import com.example.telecom.alarm.repository.MaintenanceWindowRepository;
+import com.example.telecom.alarm.repository.AlarmSuppressionRuleRepository;
 import com.example.telecom.alarm.service.*;
 import com.example.telecom.common.alarm.AlarmRecord;
 import com.example.telecom.common.alarm.AlarmStatus;
@@ -15,13 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class SuppressionRuleEvaluatorTest {
 
     private SuppressionRuleEvaluator evaluator;
+    private AlarmSuppressionRuleRepository ruleRepository;
 
     @BeforeEach
     void setUp() {
-        MaintenanceWindowRepository windowRepo = new MaintenanceWindowRepository();
-        MaintenanceWindowService windowService = new MaintenanceWindowService(windowRepo);
-        AlarmSuppressionService suppressionService = new AlarmSuppressionService(windowService);
-        evaluator = new SuppressionRuleEvaluator(suppressionService);
+        ruleRepository = new AlarmSuppressionRuleRepository();
+        evaluator = new SuppressionRuleEvaluator(ruleRepository);
     }
 
     @Test

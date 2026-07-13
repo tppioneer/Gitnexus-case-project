@@ -9,7 +9,7 @@ public class DeviceMetricEvent {
     private String unit;
     private long eventTimestamp;
 
-    /** Downstream field: propagated from DeviceInfo.regionCode via mapper. Semantically different name. */
+    /** Downstream field: propagated from DeviceInfo.maintenanceRegionCode via mapper. Semantically different name. */
     private String deviceRegionCode;
 
     public DeviceMetricEvent() {}

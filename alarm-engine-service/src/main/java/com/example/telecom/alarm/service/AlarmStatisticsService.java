@@ -5,6 +5,9 @@ import com.example.telecom.common.alarm.AlarmRecord;
 import com.example.telecom.common.alarm.AlarmStatus;
 import com.example.telecom.common.alarm.Severity;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -72,5 +75,58 @@ public class AlarmStatisticsService {
                 bySeverity.getOrDefault(Severity.MAJOR, 0L),
                 bySeverity.getOrDefault(Severity.WARNING, 0L),
                 bySeverity.getOrDefault(Severity.INFO, 0L));
+    }
+
+    /**
+     * Computes hourly distribution of alarms across the day (0-23).
+     */
+    public Map<Integer, Long> getHourlyDistribution() {
+        return alarmRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                        a -> toLocalDateTime(a.getCreatedTime()).getHour(),
+                        TreeMap::new,
+                        Collectors.counting()
+                ));
+    }
+
+    /**
+     * Computes daily distribution of alarms by day-of-week (1=Monday..7=Sunday).
+     */
+    public Map<Integer, Long> getDailyDistribution() {
+        return alarmRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                        a -> toLocalDateTime(a.getCreatedTime()).getDayOfWeek().getValue(),
+                        TreeMap::new,
+                        Collectors.counting()
+                ));
+    }
+
+    /**
+     * Computes severity trend as a map of severity to count.
+     */
+    public Map<Severity, Long> getSeverityTrend() {
+        return alarmRepository.findAll().stream()
+                .collect(Collectors.groupingBy(
+                        AlarmRecord::getSeverity,
+                        () -> new EnumMap<>(Severity.class),
+                        Collectors.counting()
+                ));
+    }
+
+    /**
+     * Returns the top N alarm types by occurrence count.
+     */
+    public List<Map.Entry<String, Long>> getTopAlarmTypes(int limit) {
+        return alarmRepository.findAll().stream()
+                .filter(a -> a.getMetricType() != null)
+                .collect(Collectors.groupingBy(AlarmRecord::getMetricType, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    private LocalDateTime toLocalDateTime(long epochMillis) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), ZoneId.systemDefault());
     }
 }

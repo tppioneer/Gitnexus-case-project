@@ -1,42 +1,106 @@
 package com.example.telecom.gateway.service;
 
-import com.example.telecom.common.gateway.ExportJob;
+import com.example.telecom.gateway.domain.DashboardExportTask;
+import com.example.telecom.gateway.dto.DashboardExportRequest;
+import com.example.telecom.gateway.dto.DashboardExportResponse;
+import com.example.telecom.gateway.repository.DashboardExportRepository;
+import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
+@Service
 public class DashboardExportService {
 
-    private final Map<String, ExportJob> jobs = new ConcurrentHashMap<>();
+    private final DashboardExportRepository exportRepository;
 
-    public ExportJob createExportJob(String type, String format, String regionCode) {
-        ExportJob job = new ExportJob(UUID.randomUUID().toString(), type, format, "PENDING", regionCode);
-        jobs.put(job.getJobId(), job);
-        return job;
+    public DashboardExportService(DashboardExportRepository exportRepository) {
+        this.exportRepository = exportRepository;
     }
 
-    public ExportJob startJob(String jobId) {
-        ExportJob job = jobs.get(jobId);
-        if (job != null) {
-            job.setStatus("RUNNING");
+    public DashboardExportResponse createExport(DashboardExportRequest request) {
+        String exportId = UUID.randomUUID().toString();
+        Map<String, String> parameters = new HashMap<>();
+        if (request.getScope() != null) {
+            parameters.put("scope", request.getScope());
         }
-        return job;
-    }
-
-    public ExportJob completeJob(String jobId) {
-        ExportJob job = jobs.get(jobId);
-        if (job != null) {
-            job.setStatus("COMPLETED");
-            job.setCompletedTime(System.currentTimeMillis());
+        if (request.getScopeId() != null) {
+            parameters.put("scopeId", request.getScopeId());
         }
-        return job;
+        if (request.getIncludeCharts() != null) {
+            parameters.put("includeCharts", request.getIncludeCharts().toString());
+        }
+        if (request.getTimeRange() != null) {
+            request.getTimeRange().forEach((k, v) -> parameters.put(k, v != null ? v.toString() : null));
+        }
+
+        String format = request.getFormat() != null ? request.getFormat() : "PDF";
+        String exportType = request.getExportType() != null ? request.getExportType() : "DASHBOARD";
+
+        DashboardExportTask task = new DashboardExportTask(
+                exportId, "current-user", exportType, format, "PENDING",
+                LocalDateTime.now(), parameters);
+
+        exportRepository.save(task);
+        executeExport(task);
+
+        return toResponse(task, 0, null);
     }
 
-    public Optional<ExportJob> findJob(String jobId) {
-        return Optional.ofNullable(jobs.get(jobId));
+    public DashboardExportResponse getExportStatus(String exportId) {
+        DashboardExportTask task = exportRepository.findById(exportId)
+                .orElseThrow(() -> new RuntimeException("Export task not found: " + exportId));
+        int progress = "COMPLETED".equals(task.getStatus()) ? 100 :
+                       "PROCESSING".equals(task.getStatus()) ? 50 : 0;
+        String downloadUrl = "COMPLETED".equals(task.getStatus())
+                ? "/api/dashboard/exports/" + exportId + "/file" : null;
+        return toResponse(task, progress, downloadUrl);
     }
 
-    public List<ExportJob> findAll() {
-        return new ArrayList<>(jobs.values());
+    public List<DashboardExportResponse> listExports() {
+        List<DashboardExportTask> tasks = exportRepository.findAll();
+        return tasks.stream()
+                .map(task -> {
+                    int progress = "COMPLETED".equals(task.getStatus()) ? 100 :
+                                   "PROCESSING".equals(task.getStatus()) ? 50 : 0;
+                    String downloadUrl = "COMPLETED".equals(task.getStatus())
+                            ? "/api/dashboard/exports/" + task.getExportId() + "/file" : null;
+                    return toResponse(task, progress, downloadUrl);
+                })
+                .collect(Collectors.toList());
+    }
+
+    public void cancelExport(String exportId) {
+        exportRepository.findById(exportId).ifPresent(task -> {
+            task.setStatus("CANCELLED");
+            task.setCompletedTime(LocalDateTime.now());
+            exportRepository.save(task);
+        });
+    }
+
+    private void executeExport(DashboardExportTask task) {
+        task.setStatus("PROCESSING");
+        exportRepository.save(task);
+
+        task.setStatus("COMPLETED");
+        task.setCompletedTime(LocalDateTime.now());
+        task.setFileSize(1024L);
+        exportRepository.save(task);
+    }
+
+    private DashboardExportResponse toResponse(DashboardExportTask task, int progress, String downloadUrl) {
+        return new DashboardExportResponse(
+                task.getExportId(),
+                task.getExportType(),
+                task.getFormat(),
+                task.getStatus(),
+                progress,
+                task.getCreatedTime(),
+                downloadUrl
+        );
     }
 }

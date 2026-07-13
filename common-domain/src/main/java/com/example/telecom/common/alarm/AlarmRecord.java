@@ -41,7 +41,9 @@ public class AlarmRecord {
     public String getMetricType() { return metricType; }
     public void setMetricType(String metricType) { this.metricType = metricType; }
     public Severity getSeverity() { return severity; }
-    public void setSeverity(Severity severity) { this.severity = severity; }
+    // severity is set only via constructor and AlarmSeverityClassifier
+    // to enforce: severity values must come from AlarmSeverityClassifier.classify() or enum constants
+    private void setSeverity(Severity severity) { this.severity = severity; }
     public AlarmStatus getStatus() { return status; }
     public void setStatus(AlarmStatus status) { this.status = status; }
     public String getDescription() { return description; }

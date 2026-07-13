@@ -40,6 +40,7 @@ public class WorkOrderFlowController {
             case CLOSED -> workOrderFlowService.close(workOrder);
             case ESCALATED -> workOrderFlowService.escalate(workOrder);
             case CANCELLED -> workOrderFlowService.cancel(workOrder);
+            case WAITING_VENDOR -> workOrderFlowService.waitForVendor(workOrder);
             default -> throw new IllegalArgumentException("Cannot transition to: " + target);
         }
 

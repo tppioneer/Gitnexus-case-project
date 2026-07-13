@@ -8,8 +8,10 @@ import com.example.telecom.alarm.rule.RuleEvaluator;
 import com.example.telecom.alarm.rule.RuleEvaluatorRegistry;
 import com.example.telecom.common.alarm.*;
 import com.example.telecom.common.device.DeviceMetricEvent;
+import com.example.telecom.common.device.DeviceMetric;
 import com.example.telecom.common.device.MetricType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,5 +81,33 @@ public class AlarmEvaluationService {
                 }
             }
         }
+    }
+
+    /**
+     * Evaluates a batch of threshold rules against a single device metric.
+     * Returns all evaluation results, including those that did not trigger.
+     * This is useful for bulk rule evaluation without generating alarms.
+     *
+     * @param rules  the list of threshold rules to evaluate
+     * @param metric the device metric to evaluate against
+     * @return list of evaluation results for all rules
+     */
+    public List<EvaluationResult> evaluateBatch(List<ThresholdRule> rules, DeviceMetric metric) {
+        if (rules == null || rules.isEmpty()) {
+            return List.of();
+        }
+        List<EvaluationResult> results = new ArrayList<>();
+        for (ThresholdRule rule : rules) {
+            if (!rule.isEnabled()) {
+                continue;
+            }
+            MetricType metricType = metric.getMetricType() != null
+                    ? metric.getMetricType()
+                    : MetricType.valueOf(rule.getMetricType());
+            RuleEvaluator evaluator = ruleEvaluatorRegistry.resolve(metricType);
+            EvaluationResult result = evaluator.evaluate(metric, rule);
+            results.add(result);
+        }
+        return results;
     }
 }

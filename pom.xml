@@ -21,10 +21,16 @@
 
     <modules>
         <module>common-domain</module>
+        <module>common-test</module>
         <module>device-collector-service</module>
+        <module>device-lifecycle-service</module>
         <module>alarm-engine-service</module>
+        <module>alarm-federated-service</module>
         <module>workorder-service</module>
+        <module>vendor-collaboration-service</module>
         <module>notification-service</module>
+        <module>dispatch-service</module>
+        <module>sla-engine-service</module>
         <module>ops-gateway-service</module>
     </modules>
 

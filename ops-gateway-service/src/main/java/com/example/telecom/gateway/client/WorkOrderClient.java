@@ -16,4 +16,8 @@ public class WorkOrderClient {
     public WorkOrder fetchWorkOrder(String workOrderId) {
         return null;
     }
+
+    public List<WorkOrder> getAllWorkOrders() {
+        return fetchOpenWorkOrderSummary();
+    }
 }

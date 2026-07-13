@@ -17,4 +17,8 @@ public class DeviceClient {
     public DeviceInfo fetchDevice(String deviceId) {
         return null;
     }
+
+    public List<DeviceInfo> getAllDevices() {
+        return fetchDeviceSummary();
+    }
 }

@@ -1,4 +1,6 @@
 .idea
+.claude
+.gitnexus
 target
 # Compiled class file
 *.class

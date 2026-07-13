@@ -9,12 +9,16 @@ import com.example.telecom.notification.repository.NotificationRepository;
 import com.example.telecom.notification.template.NotificationRecord;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class NotificationService {
 
     private final NotificationChannelRegistry channelRegistry;
     private final NotificationTemplateService templateService;
     private final NotificationRepository notificationRepository;
+    private final ExecutorService asyncExecutor;
 
     public NotificationService(NotificationChannelRegistry channelRegistry,
                                 NotificationTemplateService templateService,
@@ -22,6 +26,7 @@ public class NotificationService {
         this.channelRegistry = channelRegistry;
         this.templateService = templateService;
         this.notificationRepository = notificationRepository;
+        this.asyncExecutor = Executors.newFixedThreadPool(4);
     }
 
     public void process(WorkOrderEvent event) {
@@ -50,6 +55,68 @@ public class NotificationService {
                 System.currentTimeMillis()
         );
         notificationRepository.save(record);
+    }
+
+    public CompletableFuture<SendResult> processAsync(WorkOrderEvent event) {
+        return CompletableFuture.supplyAsync(() -> {
+            String subject = templateService.renderSubject(event);
+            String body = templateService.renderBody(event);
+            String channel = determineChannel(event);
+
+            NotificationRequest request = new NotificationRequest();
+            request.setWorkOrderId(event.getWorkOrderId());
+            request.setChannel(channel);
+            request.setSubject(subject);
+            request.setBody(body);
+            request.setRecipient("operator@telecom.local");
+
+            NotificationChannel notificationChannel = channelRegistry.resolve(channel);
+            SendResult result = notificationChannel.send(request);
+
+            NotificationRecord record = new NotificationRecord(
+                    UUID.randomUUID().toString(),
+                    event.getWorkOrderId(),
+                    channel,
+                    request.getRecipient(),
+                    subject,
+                    body,
+                    result.isSuccess(),
+                    System.currentTimeMillis()
+            );
+            notificationRepository.save(record);
+            return result;
+        }, asyncExecutor);
+    }
+
+    public CompletableFuture<SendResult> sendAsync(NotificationRequest request) {
+        return CompletableFuture.supplyAsync(() -> {
+            NotificationChannel channel = channelRegistry.resolve(request.getChannel());
+            SendResult result = channel.send(request);
+
+            NotificationRecord record = new NotificationRecord(
+                    UUID.randomUUID().toString(),
+                    request.getWorkOrderId(),
+                    request.getChannel(),
+                    request.getRecipient(),
+                    request.getSubject(),
+                    request.getBody(),
+                    result.isSuccess(),
+                    System.currentTimeMillis()
+            );
+            notificationRepository.save(record);
+            return result;
+        }, asyncExecutor);
+    }
+
+    public CompletableFuture<Void> processAllAsync(java.util.List<WorkOrderEvent> events) {
+        java.util.List<CompletableFuture<SendResult>> futures = events.stream()
+                .map(this::processAsync)
+                .toList();
+        return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+    }
+
+    public void shutdown() {
+        asyncExecutor.shutdown();
     }
 
     private String determineChannel(WorkOrderEvent event) {

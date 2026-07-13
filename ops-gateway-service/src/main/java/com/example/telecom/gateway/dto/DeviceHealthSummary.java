@@ -4,7 +4,7 @@ public class DeviceHealthSummary {
     private long totalDevices;
     private long activeDevices;
     private long unhealthyDevices;
-    /** Downstream field from DeviceInfo.regionCode chain */
+    /** Downstream field from DeviceInfo.maintenanceRegionCode chain */
     private String regionCode;
 
     public long getTotalDevices() { return totalDevices; }

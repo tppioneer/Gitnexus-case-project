@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/dashboard/regions")
+@RequestMapping("/api/dashboard")
 public class DashboardDrilldownController {
 
     private final DashboardDrilldownService drilldownService;
@@ -16,8 +16,27 @@ public class DashboardDrilldownController {
         this.drilldownService = drilldownService;
     }
 
-    @GetMapping("/{regionCode}/drilldown")
-    public ApiResponse<Map<String, Object>> getDrilldown(@PathVariable String regionCode) {
-        return ApiResponse.success(drilldownService.drillDownRegion(regionCode));
+    @GetMapping("/regions/{code}/drilldown")
+    public ApiResponse<Map<String, Object>> getRegionDrilldown(@PathVariable String code) {
+        Map<String, Object> drilldown = drilldownService.getRegionDrilldown(code);
+        return ApiResponse.success(drilldown);
+    }
+
+    @GetMapping("/devices/{deviceId}/drilldown")
+    public ApiResponse<Map<String, Object>> getDeviceDrilldown(@PathVariable String deviceId) {
+        Map<String, Object> drilldown = drilldownService.getDeviceDrilldown(deviceId);
+        return ApiResponse.success(drilldown);
+    }
+
+    @GetMapping("/alarms/{alarmId}/drilldown")
+    public ApiResponse<Map<String, Object>> getAlarmDrilldown(@PathVariable String alarmId) {
+        Map<String, Object> drilldown = drilldownService.getAlarmDrilldown(alarmId);
+        return ApiResponse.success(drilldown);
+    }
+
+    @GetMapping("/topology/{nodeId}/drilldown")
+    public ApiResponse<Map<String, Object>> getTopologyDrilldown(@PathVariable String nodeId) {
+        Map<String, Object> drilldown = drilldownService.getTopologyDrilldown(nodeId);
+        return ApiResponse.success(drilldown);
     }
 }
