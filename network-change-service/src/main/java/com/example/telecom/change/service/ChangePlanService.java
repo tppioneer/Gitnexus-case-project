@@ -72,13 +72,10 @@ public class ChangePlanService {
     }
 
     /**
-     * Self-invocation scenario. Calls {@code recordInternal} via {@code this.},
-     * which bypasses the Spring proxy. Even though {@code recordInternal} carries
-     * {@code REQUIRES_NEW}, the new-transaction semantics are NOT applied.
-     *
-     * This method is invoked by the transaction runtime oracle test; the test
-     * asserts that when {@code recordInternal} is reached via self-invocation,
-     * its write is rolled back together with the outer transaction on failure.
+     * Approves a plan and records an internal audit entry. Note that
+     * {@code recordInternal} is called via {@code this.}, which means the
+     * call stays within the same bean instance and does not traverse the
+     * Spring transaction proxy.
      */
     public void approveAndRecordInternally(String planId, String approverId) {
         approve(planId, approverId);
@@ -86,9 +83,8 @@ public class ChangePlanService {
     }
 
     /**
-     * Declares REQUIRES_NEW, but when reached via self-invocation the Spring
-     * proxy is bypassed, so the declaration has no effect. When reached via
-     * a Spring-managed reference, a new transaction is started.
+     * Records an audit entry with a dedicated REQUIRES_NEW transaction
+     * when invoked through the Spring proxy.
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void recordInternal(String planId, String action, String details) {

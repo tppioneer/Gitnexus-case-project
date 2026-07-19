@@ -6,10 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Orchestrates post-completion activities when a change reaches a terminal
- * state. Fires registered callbacks so that listeners (audit, notification,
- * etc.) are invoked through the {@code ChangeCallbackRegistry} mechanism,
- * and records an orchestration-level audit entry alongside the
- * callback-generated audit.
+ * state. Fires registered callbacks through the {@code ChangeCallbackRegistry}
+ * and records an audit entry for the completion event.
  */
 @Service
 public class ChangeCompletionService {
@@ -24,12 +22,8 @@ public class ChangeCompletionService {
     }
 
     /**
-     * Called when a change plan transitions to a terminal status.
-     * Fires registered callbacks through the registry; the callbacks
-     * (e.g. {@code auditService::onCompleted}) record their own audit
-     * entries. This method also records its own orchestration audit
-     * entry with a distinct action name so that callback execution is
-     * unambiguously identifiable.
+     * Completes a change plan by firing registered callbacks and recording
+     * a completion audit entry.
      *
      * @return the number of callbacks invoked
      */

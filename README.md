@@ -64,7 +64,7 @@ mvn -q -DskipTests compile  # 仅编译
 
 ## Network Change Service（Java/Spring 动态语义专项）
 
-`network-change-service` 是用于评测代码图谱产品对 Java/Spring 动态语义理解能力的专项模块。它实现了运营商网络变更编排场景，包含 8 个 Benchmark Case（H～O），覆盖注解、路由、DI、事务、JPA、动态分派、重载/回调、框架/反射等语义。
+`network-change-service` 是用于评测代码图谱产品对 Java/Spring 动态语义理解能力的专项模块。它实现了运营商网络变更编排场景，包含注解、路由、DI、事务、JPA、动态分派、重载/回调、框架/反射等语义评测能力。
 
 ### 固定配置
 
@@ -91,17 +91,4 @@ spring.jpa.hibernate.ddl-auto=create-drop
 mvn -pl network-change-service -am test       # 仅本模块 + 依赖
 mvn test                                       # 全项目
 ```
-
-### Benchmark Cases
-
-| Case | 测试类 | 评测能力 |
-|------|--------|----------|
-| H | `CaseHRouteMatrixTest` | Spring MVC 路由矩阵 |
-| I | `CaseIAnnotationBindingTest`, `CaseIRepeatableAnnotationTest` | 注解类型、元素、repeatable、meta-annotation |
-| J | `CaseJDependencySelectionTest`, `CaseJDryRunProfileTest` | @Qualifier、@Primary、@Profile、集合注入 |
-| K | `CaseKTransactionBoundaryTest`, `CaseKTransactionRuntimeTest` | @Transactional、propagation、readOnly、self-invocation |
-| L | `CaseLJpaMappingTest` | JPA entity、relationship、derived/JPQL/native query |
-| M | `CaseMDynamicDispatchTest` | 接口动态分派、模板方法、default method |
-| N | `CaseNOverloadCallbackTest`, `ChangeCommandBusOverloadTest` | 方法重载、lambda、method reference、callback |
-| O | `CaseOFrameworkReflectionTest` | ServiceLoader、Class.forName、Method.invoke、AOP |
 

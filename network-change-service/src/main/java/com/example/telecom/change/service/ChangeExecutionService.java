@@ -129,7 +129,8 @@ public class ChangeExecutionService {
     }
 
     /**
-     * Demonstrates lambda with forEach — exercises callback-style invocation.
+     * Validates all contexts against each registered executor, executing
+     * those that match the context's device family or handle ALL families.
      */
     public void validateAll(List<ChangeContext> contexts) {
         executors.forEach(executor -> {
@@ -142,14 +143,14 @@ public class ChangeExecutionService {
         });
     }
 
-    /** Noise method with the same name "execute" as ChangeExecutor — but this is NOT an override. */
+    /** Noise method with the same name "execute" as ChangeExecutor but different signature. */
     public String execute(String planId) {
         return "executed-" + planId;
     }
 
     /**
-     * Lambda forEach with validators — exercises interface callback invocation.
-     * Returns true if all validators pass for the given context.
+     * Runs all validators against the given context, returning true only
+     * if every validator passes.
      */
     public boolean validateAllContexts(ChangeContext context,
                                        java.util.List<com.example.telecom.change.validation.ChangeValidator> validators) {
@@ -163,9 +164,8 @@ public class ChangeExecutionService {
     }
 
     /**
-     * Demonstrates TYPE_USE annotation on a generic type element.
-     * The annotation applies to the String element type inside the List,
-     * not to the method, the parameter, or the List type itself.
+     * Processes a list of regional codes. The parameter uses a TYPE_USE
+     * annotation on the String element type inside the List.
      */
     public void processRegionalCodes(List<@RegionScope("east") String> codes) {
         for (String code : codes) {

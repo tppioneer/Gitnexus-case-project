@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Registry for status-based callbacks. Demonstrates callback registration
- * and invocation patterns with method references and lambdas.
+ * Registry for status-based callbacks. Supports registering and invoking
+ * {@code Consumer<String>} callbacks keyed by {@code ChangeStatus}.
  */
 @Component
 public class ChangeCallbackRegistry {

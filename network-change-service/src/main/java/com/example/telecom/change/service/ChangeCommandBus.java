@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Command bus with overloaded dispatch methods.
- * Three distinct methods named "dispatch" with different parameter types.
- * A fourth overload demonstrates primitive-vs-boxed resolution.
+ * Five distinct methods named "dispatch" with different parameter types.
  */
 @Service
 public class ChangeCommandBus {
