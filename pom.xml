@@ -26,6 +26,7 @@
         <module>workorder-service</module>
         <module>notification-service</module>
         <module>ops-gateway-service</module>
+        <module>network-change-service</module>
     </modules>
 
     <properties>

@@ -105,7 +105,7 @@ class DeviceRegistryServiceTest {
         request.setDeviceName(name);
         request.setDeviceType(type);
         request.setVendor(vendor);
-        request.setRegionCode(regionCode);
+        request.setMaintenanceRegionCode(regionCode);
         request.setSiteCode(siteCode);
         request.setManagementIp(ip);
         return request;

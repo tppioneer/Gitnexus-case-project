@@ -25,7 +25,7 @@ public class DeviceRegistryService {
                 request.getDeviceName(),
                 request.getDeviceType(),
                 request.getVendor(),
-                request.getRegionCode(),
+                request.getMaintenanceRegionCode(),
                 request.getSiteCode(),
                 request.getManagementIp(),
                 true

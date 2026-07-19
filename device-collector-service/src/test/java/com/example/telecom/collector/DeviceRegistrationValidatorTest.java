@@ -76,14 +76,14 @@ class DeviceRegistrationValidatorTest {
     @Test
     void shouldRejectLongRegionCode() {
         DeviceRegistrationRequest request = validRequest();
-        request.setRegionCode("A".repeat(33));
+        request.setMaintenanceRegionCode("A".repeat(33));
         assertThrows(ValidationException.class, () -> validator.validate(request));
     }
 
     @Test
     void shouldAcceptNullRegionCode() {
         DeviceRegistrationRequest request = validRequest();
-        request.setRegionCode(null);
+        request.setMaintenanceRegionCode(null);
         assertDoesNotThrow(() -> validator.validate(request));
     }
 
@@ -99,7 +99,7 @@ class DeviceRegistrationValidatorTest {
         request.setDeviceName("BS-East-01");
         request.setDeviceType(DeviceType.BASE_STATION);
         request.setVendor("Huawei");
-        request.setRegionCode("EAST");
+        request.setMaintenanceRegionCode("EAST");
         request.setSiteCode("SITE-001");
         request.setManagementIp("10.0.0.1");
         return request;

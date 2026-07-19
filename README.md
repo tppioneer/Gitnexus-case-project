@@ -18,6 +18,7 @@
 | `workorder-service` | 自动工单创建、状态机流转、派单、升级 |
 | `notification-service` | 通知模板渲染、多渠道发送（短信/邮件/企微） |
 | `ops-gateway-service` | 运维看板 API、跨服务数据聚合 |
+| `network-change-service` | 网络变更编排：软件升级、配置下发、审批、执行、回滚、审计、事件通知（Java/Spring 动态语义评测模块） |
 
 ## 技术栈
 
@@ -60,3 +61,47 @@ mvn -q -DskipTests compile  # 仅编译
 2. **接口多态**：5+ 接口、17+ 实现类，调用通过 registry + 接口变量完成
 3. **字段传播不同名**：regionCode 在下游以不同语义名称传播（deviceRegionCode、alarmRegionCode、maintenanceRegionCode）
 4. **跨模块事件链**：Publisher → DomainEventBus → Consumer 形成跨服务调用追踪场景
+
+## Network Change Service（Java/Spring 动态语义专项）
+
+`network-change-service` 是用于评测代码图谱产品对 Java/Spring 动态语义理解能力的专项模块。它实现了运营商网络变更编排场景，包含 8 个 Benchmark Case（H～O），覆盖注解、路由、DI、事务、JPA、动态分派、重载/回调、框架/反射等语义。
+
+### 固定配置
+
+| 配置项 | 值 | 用途 |
+|--------|-----|------|
+| `spring.profiles.active` (test) | `benchmark` | 默认测试 profile |
+| `telecom.change.remote.enabled` | `false` | 默认关闭远程回滚 |
+| `telecom.change.plugin-class-name` | `com.example.telecom.change.plugin.BenchmarkChangeValidationPlugin` | 反射插件类名 |
+
+### H2 测试数据库
+
+```properties
+spring.datasource.url=jdbc:h2:mem:changedb;DB_CLOSE_DELAY=-1
+spring.jpa.hibernate.ddl-auto=create-drop
+```
+
+### ServiceLoader 配置
+
+`META-INF/services/com.example.telecom.change.plugin.ChangeValidationPlugin` 注册 `BenchmarkChangeValidationPlugin`。
+
+### 运行测试
+
+```bash
+mvn -pl network-change-service -am test       # 仅本模块 + 依赖
+mvn test                                       # 全项目
+```
+
+### Benchmark Cases
+
+| Case | 测试类 | 评测能力 |
+|------|--------|----------|
+| H | `CaseHRouteMatrixTest` | Spring MVC 路由矩阵 |
+| I | `CaseIAnnotationBindingTest`, `CaseIRepeatableAnnotationTest` | 注解类型、元素、repeatable、meta-annotation |
+| J | `CaseJDependencySelectionTest`, `CaseJDryRunProfileTest` | @Qualifier、@Primary、@Profile、集合注入 |
+| K | `CaseKTransactionBoundaryTest`, `CaseKTransactionRuntimeTest` | @Transactional、propagation、readOnly、self-invocation |
+| L | `CaseLJpaMappingTest` | JPA entity、relationship、derived/JPQL/native query |
+| M | `CaseMDynamicDispatchTest` | 接口动态分派、模板方法、default method |
+| N | `CaseNOverloadCallbackTest`, `ChangeCommandBusOverloadTest` | 方法重载、lambda、method reference、callback |
+| O | `CaseOFrameworkReflectionTest` | ServiceLoader、Class.forName、Method.invoke、AOP |
+

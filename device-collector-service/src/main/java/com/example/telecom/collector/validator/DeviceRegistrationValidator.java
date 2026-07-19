@@ -28,8 +28,8 @@ public class DeviceRegistrationValidator {
         if (request.getManagementIp() != null && request.getManagementIp().length() > MAX_IP_LENGTH) {
             throw new ValidationException("managementIp", "IP address exceeds maximum length");
         }
-        if (request.getRegionCode() != null && request.getRegionCode().length() > 32) {
-            throw new ValidationException("regionCode", "Region code exceeds maximum length");
+        if (request.getMaintenanceRegionCode() != null && request.getMaintenanceRegionCode().length() > 32) {
+            throw new ValidationException("maintenanceRegionCode", "Maintenance region code exceeds maximum length");
         }
     }
 }
