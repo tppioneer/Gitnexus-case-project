@@ -1,0 +1,15 @@
+server:
+  port: 18083
+
+spring:
+  application:
+    name: provider
+
+service_description:
+  name: order-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
