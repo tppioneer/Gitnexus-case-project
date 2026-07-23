@@ -1,0 +1,11 @@
+package com.gitnexus.case.contracts;
+
+public final class PlatformRoutes {
+    public static final String ORDER_SERVICE = "cse://order-service";
+    public static final String ORDER_PREFIX = "/rest/v1/orders";
+    public static final String USER_SERVICE = "cse://user-service";
+    public static final String USER_PREFIX = "/rest/v2/users";
+
+    private PlatformRoutes() {
+    }
+}
