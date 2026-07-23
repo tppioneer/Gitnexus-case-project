@@ -1,0 +1,15 @@
+server:
+  port: 18082
+
+spring:
+  application:
+    name: consumer2
+
+service_description:
+  name: order-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

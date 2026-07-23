@@ -1,0 +1,7 @@
+.gitnexus
+.idea
+*.iml
+target/
+build/
+*.log
+.DS_Store
