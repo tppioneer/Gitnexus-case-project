@@ -1,4 +1,4 @@
-package com.gitnexus.case.provider.controller;
+package com.gitnexus.demo.provider.controller;
 
 import org.springframework.web.bind.annotation.*;
 

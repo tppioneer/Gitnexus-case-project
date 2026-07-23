@@ -1,4 +1,4 @@
-package com.gitnexus.case.provider;
+package com.gitnexus.demo.provider;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

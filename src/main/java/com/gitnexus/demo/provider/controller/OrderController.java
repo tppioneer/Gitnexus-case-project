@@ -1,6 +1,6 @@
-package com.gitnexus.case.provider.controller;
+package com.gitnexus.demo.provider.controller;
 
-import com.gitnexus.case.provider.constants.UnresolvedRoutes;
+import com.gitnexus.demo.provider.constants.UnresolvedRoutes;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
