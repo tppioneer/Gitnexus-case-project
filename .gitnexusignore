@@ -1,0 +1,6 @@
+# Exclude the platform-contracts maven subproject so that GitNexus cannot
+# scan PlatformRoutes.java directly. This forces the CSE-link plugin to
+# resolve those constants via the externalConstants rule in
+# .gitnexus/microservice-rules.yaml, proving that externalConstants work
+# even when the source file is not indexed.
+platform-contracts/

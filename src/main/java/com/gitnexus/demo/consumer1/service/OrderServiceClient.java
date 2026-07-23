@@ -49,7 +49,7 @@ public class OrderServiceClient {
     }
 
     public String getAmbiguous(String id) {
-        String url = PlatformRoutes.ORDER_SERVICE + PlatformRoutes.ORDER_PREFIX.replace("/orders", "") + "/ambiguous/{id}";
+        String url = PlatformRoutes.ORDER_SERVICE + PlatformRoutes.AMBIGUOUS_PREFIX + "/{id}";
         AmbiguousDTO result = restTemplate.getForObject(url, AmbiguousDTO.class, id);
         return result != null ? result.source() : null;
     }
