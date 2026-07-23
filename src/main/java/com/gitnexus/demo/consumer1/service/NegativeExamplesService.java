@@ -1,4 +1,4 @@
-package com.gitnexus.case.consumer1.service;
+package com.gitnexus.demo.consumer1.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

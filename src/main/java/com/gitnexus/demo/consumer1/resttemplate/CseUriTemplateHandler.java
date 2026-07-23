@@ -1,5 +1,7 @@
-package com.gitnexus.case.consumer1.resttemplate;
+package com.gitnexus.demo.consumer1.resttemplate;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -77,18 +79,13 @@ public class CseUriTemplateHandler implements ClientHttpRequestInterceptor {
         }
 
         @Override
-        public String getMethod() {
+        public HttpMethod getMethod() {
             return delegate.getMethod();
         }
 
         @Override
         public HttpHeaders getHeaders() {
             return delegate.getHeaders();
-        }
-
-        @Override
-        public String getMethodValue() {
-            return delegate.getMethodValue();
         }
     }
 }

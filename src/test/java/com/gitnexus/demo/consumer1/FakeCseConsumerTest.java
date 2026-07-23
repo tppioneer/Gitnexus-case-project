@@ -1,6 +1,6 @@
-package com.gitnexus.case.consumer1;
+package com.gitnexus.demo.consumer1;
 
-import com.gitnexus.case.consumer1.resttemplate.RestTemplateBuilder;
+import com.gitnexus.demo.consumer1.resttemplate.RestTemplateBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestTemplate;
 

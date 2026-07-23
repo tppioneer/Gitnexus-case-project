@@ -1,7 +1,7 @@
-package com.gitnexus.case.consumer1.service;
+package com.gitnexus.demo.consumer1.service;
 
-import com.gitnexus.case.consumer1.resttemplate.RestTemplateBuilder;
-import com.gitnexus.case.contracts.PlatformRoutes;
+import com.gitnexus.demo.consumer1.resttemplate.RestTemplateBuilder;
+import com.gitnexus.platform.contracts.PlatformRoutes;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -54,11 +54,3 @@ public class OrderServiceClient {
         return result != null ? result.source() : null;
     }
 }
-
-record OrderDTO(String id, String name, String status, Double amount) {}
-record BatchOrderRequest(java.util.List<String> ids) {}
-record BatchOrderResponse(int count, String message) {}
-record DeleteResponse(String id, boolean deleted) {}
-record CreateOrderRequest(String name, Double amount) {}
-record SearchOrderResponse(String status, String region, int total) {}
-record AmbiguousDTO(String id, String source) {}

@@ -1,8 +1,11 @@
-package com.gitnexus.case.consumer1.controller;
+package com.gitnexus.demo.consumer1.controller;
 
-import com.gitnexus.case.consumer1.service.NegativeExamplesService;
-import com.gitnexus.case.consumer1.service.OrderServiceClient;
-import com.gitnexus.case.consumer1.service.dto.*;
+import com.gitnexus.demo.consumer1.service.NegativeExamplesService;
+import com.gitnexus.demo.consumer1.service.OrderServiceClient;
+import com.gitnexus.demo.consumer1.service.OrderDTO;
+import com.gitnexus.demo.consumer1.service.BatchOrderResponse;
+import com.gitnexus.demo.consumer1.service.DeleteResponse;
+import com.gitnexus.demo.consumer1.service.SearchOrderResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

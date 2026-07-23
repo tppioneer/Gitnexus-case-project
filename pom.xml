@@ -46,10 +46,6 @@
         </dependency>
     </dependencies>
 
-    <modules>
-        <module>platform-contracts</module>
-    </modules>
-
     <build>
         <plugins>
             <plugin>

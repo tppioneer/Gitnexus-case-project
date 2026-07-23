@@ -1,4 +1,4 @@
-package com.gitnexus.case.consumer1.resttemplate;
+package com.gitnexus.demo.consumer1.resttemplate;
 
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;

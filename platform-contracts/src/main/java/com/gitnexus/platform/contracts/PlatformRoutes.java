@@ -1,4 +1,4 @@
-package com.gitnexus.case.contracts;
+package com.gitnexus.platform.contracts;
 
 public final class PlatformRoutes {
     public static final String ORDER_SERVICE = "cse://order-service";

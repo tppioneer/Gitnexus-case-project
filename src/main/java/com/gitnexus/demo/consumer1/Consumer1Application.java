@@ -1,4 +1,4 @@
-package com.gitnexus.case.consumer1;
+package com.gitnexus.demo.consumer1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
