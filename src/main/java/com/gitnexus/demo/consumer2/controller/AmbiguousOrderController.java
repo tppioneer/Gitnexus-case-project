@@ -1,4 +1,4 @@
-package com.gitnexus.case.consumer2.controller;
+package com.gitnexus.demo.consumer2.controller;
 
 import org.springframework.web.bind.annotation.*;
 

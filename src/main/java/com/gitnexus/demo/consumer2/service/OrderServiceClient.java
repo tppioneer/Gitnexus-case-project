@@ -1,10 +1,6 @@
-package com.gitnexus.case.consumer2.service;
+package com.gitnexus.demo.consumer2.service;
 
-import com.gitnexus.case.consumer2.resttemplate.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import com.gitnexus.demo.consumer2.resttemplate.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,7 +32,3 @@ public class OrderServiceClient {
         return result != null ? result.source() : null;
     }
 }
-
-record OrderDTO(String id, String name, String status, Double amount) {}
-record SearchOrderResponse(String status, String region, int total) {}
-record AmbiguousDTO(String id, String source) {}

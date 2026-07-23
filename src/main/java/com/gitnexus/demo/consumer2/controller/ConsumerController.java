@@ -1,6 +1,8 @@
-package com.gitnexus.case.consumer2.controller;
+package com.gitnexus.demo.consumer2.controller;
 
-import com.gitnexus.case.consumer2.service.OrderServiceClient;
+import com.gitnexus.demo.consumer2.service.OrderServiceClient;
+import com.gitnexus.demo.consumer2.service.OrderDTO;
+import com.gitnexus.demo.consumer2.service.SearchOrderResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,6 +32,3 @@ public class ConsumerController {
         return orderClient.callAmbiguous(id);
     }
 }
-
-record OrderDTO(String id, String name, String status, Double amount) {}
-record SearchOrderResponse(String status, String region, int total) {}
